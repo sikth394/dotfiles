@@ -1,0 +1,12 @@
+{
+  "baseFontSize": 28,
+  "theme": "obsidian",
+  "cssTheme": "Spectrum",
+  "translucency": true,
+  "interfaceFontFamily": "",
+  "accentColor": "",
+  "enabledCssSnippets": [
+    "custom-mermaid",
+    "custom-mermaid1"
+  ]
+}

@@ -1,0 +1,243 @@
+{
+  "main": {
+    "id": "35150f68b8e3fcd8",
+    "type": "split",
+    "children": [
+      {
+        "id": "583f55b539f215f1",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "f12728d57b085112",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Git/Git_Guides/Copy  SSH keys.md",
+                "mode": "preview",
+                "source": false
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "4302082ddee93fe7",
+    "type": "split",
+    "children": [
+      {
+        "id": "a61079653a81eb49",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "8baf3be9f88c595b",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical"
+              }
+            }
+          },
+          {
+            "id": "98fee2a659c4e93a",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "byModifiedTime"
+              }
+            }
+          },
+          {
+            "id": "5a4c76e7555d1fbd",
+            "type": "leaf",
+            "state": {
+              "type": "recent-files",
+              "state": {}
+            }
+          },
+          {
+            "id": "0748c37e755f7052",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {}
+            }
+          },
+          {
+            "id": "52c7343257302c48",
+            "type": "leaf",
+            "state": {
+              "type": "file-tree-view",
+              "state": {}
+            }
+          }
+        ],
+        "currentTab": 4
+      }
+    ],
+    "direction": "horizontal",
+    "width": 235.5
+  },
+  "right": {
+    "id": "462ef595ecc3b1dd",
+    "type": "split",
+    "children": [
+      {
+        "id": "f3e78cfc4004f254",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "23858d7d69ce7006",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "Git/Git_Guides/Copy  SSH keys.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              }
+            }
+          },
+          {
+            "id": "84ba12a9bc243423",
+            "type": "leaf",
+            "state": {
+              "type": "calendar",
+              "state": {}
+            }
+          },
+          {
+            "id": "2bc3f2ddc8de4740",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "Git/Git_Guides/Copy  SSH keys.md",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              }
+            }
+          },
+          {
+            "id": "754b3d3a619f739f",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "Git/Git_Guides/Copy  SSH keys.md"
+              }
+            }
+          },
+          {
+            "id": "450e63b633e8e4cf",
+            "type": "leaf",
+            "state": {
+              "type": "advanced-tables-toolbar",
+              "state": {}
+            }
+          },
+          {
+            "id": "09a553e6cb6905f2",
+            "type": "leaf",
+            "state": {
+              "type": "all-properties",
+              "state": {
+                "sortOrder": "frequency",
+                "showSearch": false,
+                "searchQuery": ""
+              }
+            }
+          },
+          {
+            "id": "f9cfa44a174f7b6d",
+            "type": "leaf",
+            "state": {
+              "type": "todo",
+              "state": {}
+            }
+          }
+        ],
+        "currentTab": 4
+      }
+    ],
+    "direction": "horizontal",
+    "width": 395,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:Open quick switcher": false,
+      "graph:Open graph view": false,
+      "canvas:Create new canvas": false,
+      "templates:Insert template": false,
+      "command-palette:Open command palette": false,
+      "markdown-importer:Open format converter": false,
+      "table-editor-obsidian:Advanced Tables Toolbar": false,
+      "obsidian-excalidraw-plugin:Create new drawing": false,
+      "obsidian-textgenerator-plugin:Generate Text!": false,
+      "obsidian-textgenerator-plugin:Text Generator: Templates Packages Manager": false,
+      "file-tree-alternative:File Tree Alternative Plugin": false
+    }
+  },
+  "active": "f12728d57b085112",
+  "lastOpenFiles": [
+    "Fleet/Guides/Create SSH key.md",
+    "Trello.md",
+    "Home🏠.md",
+    "Scrap.md",
+    "Untitled 1.md",
+    "Untitled.md",
+    "Untitled 2.md",
+    "Templates/Fleet/New Task Tamplate.md",
+    "Templates/Fleet/down flow template.md",
+    "Fleet/TODO/infra alerts.md",
+    "Fleet/TODO/NPP reassign intergration.md",
+    "Fleet/Helpers/How to Trigger endpoints.md",
+    "Fleet/Helpers/PP Cities Table.md",
+    "Fleet/TODO/getProposals -> booking.md",
+    "Fleet/TODO/booking - trim shifts proposals flows.md",
+    "Fleet/Helpers/Logs Insights - example query.md",
+    "Git/Git_Guides/Git Cheat Sheet.md",
+    "Fleet/TODO/instansiation - BW bugfix.md",
+    "Fleet/Guides/Instansiation - Fleet Diagram.md",
+    "Fleet/Helpers/structure of snowflake lambda query.md",
+    "Files/dump here/Pasted image 20240111151355.png",
+    "Files/dump here/Pasted image 20240111151648 1.png",
+    "Files/dump here/Pasted image 20240111151636.png",
+    "Files/dump here/Screenshot 2024-01-11 at 15.19.41.png",
+    "Files/dump here/Pasted image 20240111151905.png",
+    "Files/dump here/Pasted image 20240111151438.png",
+    "Files/dump here/Pasted image 20240111151407.png",
+    "Fleet/Helpers/Booking Windows Table.md",
+    "Fleet/Guides/Create Template Rides & Shifts.md",
+    "Fleet/Helpers/Trip overlapping rides validations.md",
+    "Files/dump here/Screenshot 2024-01-11 at 15.26.42.png",
+    "Files/dump here/Screenshot 2024-01-11 at 15.25.57.png",
+    "Files/dump here/Pasted image 20240111152452.png",
+    "Fleet/Guides/Assign & Reassign lambdas Mapping.md",
+    "Fleet/Guides/Serverless Deploy Notes.md",
+    "this_section.md",
+    "hek",
+    "planner",
+    "Fleet/Test Plans",
+    "Untitled.canvas",
+    "Untitled 1.canvas",
+    "Fleet/Helpers/Flows - Lambda.canvas",
+    "edit series -> booking"
+  ]
+}

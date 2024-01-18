@@ -1,0 +1,26 @@
+{
+  "spellcheck": true,
+  "alwaysUpdateLinks": true,
+  "spellcheckDictionary": [
+    "ridewithvia",
+    "voc",
+    "fe",
+    "viapartnersupport",
+    "https",
+    "zendesk",
+    "atlassian",
+    "pingdoms",
+    "VOCAdmin",
+    "ViaUserManager",
+    "FCCUser"
+  ],
+  "defaultViewMode": "preview",
+  "promptDelete": false,
+  "foldHeading": true,
+  "foldIndent": true,
+  "strictLineBreaks": false,
+  "readableLineLength": true,
+  "useTab": true,
+  "legacyEditor": false,
+  "livePreview": true
+}

@@ -1,0 +1,205 @@
+{
+  "recentFiles": [
+    {
+      "basename": "Copy  SSH keys",
+      "path": "Git/Git_Guides/Copy  SSH keys.md"
+    },
+    {
+      "basename": "Create SSH key",
+      "path": "Fleet/Guides/Create SSH key.md"
+    },
+    {
+      "basename": "Trello",
+      "path": "Trello.md"
+    },
+    {
+      "basename": "Home🏠",
+      "path": "Home🏠.md"
+    },
+    {
+      "basename": "New Task Tamplate",
+      "path": "Templates/Fleet/New Task Tamplate.md"
+    },
+    {
+      "basename": "down flow template",
+      "path": "Templates/Fleet/down flow template.md"
+    },
+    {
+      "basename": "infra alerts",
+      "path": "Fleet/TODO/infra alerts.md"
+    },
+    {
+      "basename": "NPP reassign intergration",
+      "path": "Fleet/TODO/NPP reassign intergration.md"
+    },
+    {
+      "basename": "How to Trigger endpoints",
+      "path": "Fleet/Helpers/How to Trigger endpoints.md"
+    },
+    {
+      "basename": "PP Cities Table",
+      "path": "Fleet/Helpers/PP Cities Table.md"
+    },
+    {
+      "basename": "getProposals -> booking",
+      "path": "Fleet/TODO/getProposals -> booking.md"
+    },
+    {
+      "basename": "booking - trim shifts proposals flows",
+      "path": "Fleet/TODO/booking - trim shifts proposals flows.md"
+    },
+    {
+      "basename": "Logs Insights - example query",
+      "path": "Fleet/Helpers/Logs Insights - example query.md"
+    },
+    {
+      "basename": "Git Cheat Sheet",
+      "path": "Git/Git_Guides/Git Cheat Sheet.md"
+    },
+    {
+      "basename": "instansiation - BW bugfix",
+      "path": "Fleet/TODO/instansiation - BW bugfix.md"
+    },
+    {
+      "basename": "Instansiation - Fleet Diagram",
+      "path": "Fleet/Guides/Instansiation - Fleet Diagram.md"
+    },
+    {
+      "basename": "structure of snowflake lambda query",
+      "path": "Fleet/Helpers/structure of snowflake lambda query.md"
+    },
+    {
+      "basename": "Pasted image 20240111151355",
+      "path": "Files/dump here/Pasted image 20240111151355.png"
+    },
+    {
+      "basename": "Pasted image 20240111151648 1",
+      "path": "Files/dump here/Pasted image 20240111151648 1.png"
+    },
+    {
+      "basename": "Pasted image 20240111151636",
+      "path": "Files/dump here/Pasted image 20240111151636.png"
+    },
+    {
+      "basename": "Screenshot 2024-01-11 at 15.19.41",
+      "path": "Files/dump here/Screenshot 2024-01-11 at 15.19.41.png"
+    },
+    {
+      "basename": "Pasted image 20240111151905",
+      "path": "Files/dump here/Pasted image 20240111151905.png"
+    },
+    {
+      "basename": "Pasted image 20240111151438",
+      "path": "Files/dump here/Pasted image 20240111151438.png"
+    },
+    {
+      "basename": "Pasted image 20240111151407",
+      "path": "Files/dump here/Pasted image 20240111151407.png"
+    },
+    {
+      "basename": "Booking Windows Table",
+      "path": "Fleet/Helpers/Booking Windows Table.md"
+    },
+    {
+      "basename": "Create Template Rides & Shifts",
+      "path": "Fleet/Guides/Create Template Rides & Shifts.md"
+    },
+    {
+      "basename": "Trip overlapping rides validations",
+      "path": "Fleet/Helpers/Trip overlapping rides validations.md"
+    },
+    {
+      "basename": "Assign & Reassign lambdas Mapping",
+      "path": "Fleet/Guides/Assign & Reassign lambdas Mapping.md"
+    },
+    {
+      "basename": "Serverless Deploy Notes",
+      "path": "Fleet/Guides/Serverless Deploy Notes.md"
+    },
+    {
+      "basename": "getShortUrl",
+      "path": "Fleet/Helpers/getShortUrl.md"
+    },
+    {
+      "basename": "Deployment Hours - (TLV local time)",
+      "path": "Fleet/Helpers/Deployment Hours - (TLV local time).md"
+    },
+    {
+      "basename": "Call Method Locally - structure",
+      "path": "Fleet/Helpers/Call Method Locally - structure.md"
+    },
+    {
+      "basename": "local debug in Prod",
+      "path": "Fleet/Guides/local debug in Prod.md"
+    },
+    {
+      "basename": "remove duplicate rollout manager",
+      "path": "Fleet/TODO/remove duplicate rollout manager.md"
+    },
+    {
+      "basename": "Deploy notes",
+      "path": "Fleet/Guides/Deploy notes.md"
+    },
+    {
+      "basename": "Aviv Dev City Params",
+      "path": "Fleet/Helpers/Aviv Dev City Params.md"
+    },
+    {
+      "basename": "Redirect to private cluster",
+      "path": "Fleet/Guides/Redirect to private cluster.md"
+    },
+    {
+      "basename": "Drawing 2024-01-02 10.16.09.excalidraw",
+      "path": "Files/dump here/Drawing 2024-01-02 10.16.09.excalidraw.md"
+    },
+    {
+      "basename": "Versioning helper",
+      "path": "Fleet/Helpers/Versioning helper.md"
+    },
+    {
+      "basename": "Pasted image 20231225132854",
+      "path": "Fleet/Helpers/Pasted image 20231225132854.png"
+    },
+    {
+      "basename": "Pasted image 20231225132751",
+      "path": "Fleet/Helpers/Pasted image 20231225132751.png"
+    },
+    {
+      "basename": "Pasted image 20231225132832",
+      "path": "Fleet/Helpers/Pasted image 20231225132832.png"
+    },
+    {
+      "basename": "Pasted image 20231225132806",
+      "path": "Files/dump here/Pasted image 20231225132806.png"
+    },
+    {
+      "basename": "Pasted image 20231225132735",
+      "path": "Fleet/Helpers/Pasted image 20231225132735.png"
+    },
+    {
+      "basename": "Pasted image 20231225132711",
+      "path": "Fleet/Helpers/Pasted image 20231225132711.png"
+    },
+    {
+      "basename": "Pasted image 20231225132656",
+      "path": "Files/dump here/Pasted image 20231225132656.png"
+    },
+    {
+      "basename": "Pasted image 20231225132646",
+      "path": "Files/dump here/Pasted image 20231225132646.png"
+    },
+    {
+      "basename": "deployment approval - for cloning",
+      "path": "Fleet/Helpers/deployment approval - for cloning.md"
+    },
+    {
+      "basename": "deployment process of a new lambda",
+      "path": "Fleet/Helpers/deployment process of a new lambda.md"
+    }
+  ],
+  "omittedPaths": [
+    ""
+  ],
+  "maxLength": null,
+  "openType": "tab"
+}
