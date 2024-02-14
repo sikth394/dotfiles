@@ -1,0 +1,10 @@
+1. download sublime package manager - cmd+shift+p -> `Install Package Control`
+2. download prettyJson from pckg manager
+3.settings -> keybindings -> pass `custom keys` file  content there
+4. symlink subl command :
+
+    sudo ln -s "/Applications/Sublime Text.app/Contents/SharedSupport/bin/subl" /usr/local/bin/sublime
+
+5.package list (cmd+shift+p -> `advanced install package`):
+
+    Advanced CSV,Monokai JSON+,Monokai++,Pretty Json,Theme - Brogrammer,Theme- Monokai Pro

@@ -1,0 +1,6 @@
+[
+	{ "keys": ["super+l"], "command": "swap_case" },
+	{ "keys": [ "ctrl+super+e" ], "command": "pretty_json" },
+	{ "keys": [ "ctrl+super+r" ], "command": "un_pretty_json" },
+	{ "keys": [ "ctrl+super+w" ], "command": "pretty_json_goto_symbol" }	
+]
