@@ -96,6 +96,7 @@ PATH=$(pyenv root)/shims:$PATH
 alias gitt="hub"
 alias gcb="git checkout -b"
 alias gc="git checkout"
+alias gcm="git commit -m"
 alias glg="git lg"
 alias gba="git branch --all"
 alias gst="git status"
