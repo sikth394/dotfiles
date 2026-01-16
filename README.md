@@ -34,33 +34,55 @@ everything i need to get a new mac up & running
 7. **Download JetBrains Toolbox & PyCharm**
    Download JetBrains Toolbox from [jetbrains.com/toolbox-app](https://www.jetbrains.com/toolbox-app/) and install PyCharm from there.
 
-8. **Clone platform**
+8. **Setup SSH Keys (Work & Personal)**
+   Generate SSH keys for both work and personal use:
+   ```bash
+   ssh-keygen -t ed25519 -f ~/.ssh/work
+   ssh-keygen -t ed25519 -f ~/.ssh/personal
+   ```
+   Create or edit `~/.ssh/config`:
+   ```text
+   # Personal GitHub
+   Host github.com-personal
+       HostName github.com
+       User git
+       IdentityFile ~/.ssh/personal
+
+   # Work GitHub
+   Host github.com-work
+       HostName github.com
+       User git
+       IdentityFile ~/.ssh/work
+   ```
+   Add the public keys (`~/.ssh/work.pub` and `~/.ssh/personal.pub`) to your respective GitHub accounts.
+
+9. **Clone platform**
    ```bash
    cd ~/workspace
    git clone <platform-repo-url>
    ```
 
-9. **Create missions folder**
-   ```bash
-   mkdir -p ~/workspace/missions
-   ```
+10. **Create missions folder**
+    ```bash
+    mkdir -p ~/workspace/missions
+    ```
 
-10. **Install Claude**
-   Follow the official installation guide for Claude.
+11. **Install Claude**
+    Follow the official installation guide for Claude.
 
-11. **Setup Claude configuration**
+12. **Setup Claude configuration**
     Put `CLAUDE.md` in the `~/.claude` directory:
     ```bash
     mkdir -p ~/.claude
     cp programs_config/claude/CLAUDE.md ~/.claude/CLAUDE.md
     ```
 
-12. **Create Claude docs folder**
+13. **Create Claude docs folder**
     ```bash
     mkdir -p ~/workspace/claude-docs
     ```
 
-13. **Setup update context script**
+14. **Setup update context script**
     Put `update_context.sh` in the `claude-docs` folder:
     ```bash
     cp programs_config/claude/update_context.sh ~/workspace/claude-docs/
