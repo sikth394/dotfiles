@@ -123,6 +123,7 @@ alias cld="~/workspace/claude-docs/update_context.sh"
 alias msn="obs ~/workspace/missions"
 alias pln="obs ~/.claude/plans"
 alias gituser='echo "Name: $(git config user.name)\nEmail: $(git config user.email)\nRemote: $(git remote get-url origin 2>/dev/null || echo "No origin set")"'
+alias delmaster="git branch -D master"
 
 # alias brew="arch -x86_64 brew"
 export PATH="/usr/local/opt/openssl@3/bin:$PATH"
