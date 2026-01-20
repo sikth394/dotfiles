@@ -189,15 +189,20 @@ function cd() {
 
 nm() {
     obs ~/workspace/missions/"$*".md
-}
+} # new mission
 
 cms() {
     rm -f ~/workspace/missions/*.md
-}
+} # delete all missions
+
+ams() {
+    mkdir -p ~/workspace/missions/archived
+    mv ~/workspace/missions/*.md ~/workspace/missions/archived/ 2>/dev/null || true
+} # archive all missions
 
 cps() {
     rm -f ~/.claude/plans/*
-}
+} # delete all claude plans
 
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
