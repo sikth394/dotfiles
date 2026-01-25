@@ -23,9 +23,21 @@ everything i need to get a new mac up & running
    Download and install from [obsidian.md](https://obsidian.md/).
 
 6. **Create `obs` command**
-   Add this alias to your shell configuration if not already present:
+   Create a script that can create and open files in Obsidian:
    ```bash
-   alias obs='open -a "Obsidian"'
+   cat > /tmp/obs << 'EOF'
+   #!/bin/bash
+   if [ $# -gt 0 ]; then
+       for file in "$@"; do
+           if [ ! -f "$file" ]; then
+               touch "$file"
+           fi
+       done
+   fi
+   open -a Obsidian "$@"
+   EOF
+   chmod +x /tmp/obs
+   sudo mv /tmp/obs /usr/local/bin/obs
    ```
 
 7. **Create workspace folder**
@@ -37,46 +49,100 @@ everything i need to get a new mac up & running
 8. **Download JetBrains Toolbox & PyCharm**
    Download JetBrains Toolbox from [jetbrains.com/toolbox-app](https://www.jetbrains.com/toolbox-app/) and install PyCharm from there.
 
-9. **Setup SSH Key**
-   Generate an SSH key for your work GitHub account:
+9. **Setup SSH Keys for GitHub**
+   Generate an SSH key (using ed25519 as recommended by GitHub):
    ```bash
-   ssh-keygen -t ed25519 -f ~/.ssh/id_ed25519_work
+   ssh-keygen -t ed25519 -f ~/.ssh/id_ed25519_github
    ```
-   Get the public key:
-   ```bash
-   cat ~/.ssh/id_ed25519_work.pub
-   ```
-   Copy the output and add it to your [GitHub account settings](https://github.com/settings/keys) under "SSH and GPG keys" -> "New SSH key".
 
-10. **Clone platform**
+   Configure SSH to use this key for GitHub:
+   ```bash
+   mkdir -p ~/.ssh
+   cat >> ~/.ssh/config << 'EOF'
+   Host github.com
+       IdentityFile ~/.ssh/id_ed25519_github
+   EOF
+   ```
+
+   Get your public key:
+   ```bash
+   cat ~/.ssh/id_ed25519_github.pub
+   ```
+
+   Copy the output and add it to your GitHub account:
+   - Go to [GitHub SSH Keys Settings](https://github.com/settings/keys)
+   - Click "New SSH key"
+   - Paste your public key and give it a descriptive title
+
+   For more information, see [GitHub's SSH documentation](https://docs.github.com/en/authentication/connecting-to-github-with-ssh).
+
+10. **Clone your main work repository**
+    Clone your main work repository (replace `<repo-name>` with your actual repo name):
     ```bash
     cd ~/workspace
-    git clone <platform-repo-url>
+    git clone git@github.com:your-org/<repo-name>.git
     ```
 
 11. **Create missions folder**
+    Create a folder for active mission/task documentation that will be auto-included in Claude context:
     ```bash
     mkdir -p ~/workspace/missions
     ```
 
 12. **Install Claude**
-    Follow the official installation guide for Claude.
+    Install Claude Code CLI:
+    ```bash
+    brew install claude
+    ```
+    For more information, visit the [Claude Code documentation](https://github.com/anthropics/claude-code).
 
-13. **Setup Claude configuration**
-    Put `CLAUDE.md` in the `~/.claude` directory:
+13. **Setup Claude global configuration**
+    Put the global `CLAUDE.md` in the `~/.claude` directory:
     ```bash
     mkdir -p ~/.claude
     cp programs_config/claude/CLAUDE.md ~/.claude/CLAUDE.md
     ```
 
-14. **Create Claude docs folder**
+14. **Setup project-specific Claude configuration**
+    Create a project-specific CLAUDE.md file in your work repo with a canary marker (replace `<repo-name>` with your actual repo name):
+    ```bash
+    mkdir -p ~/workspace/<repo-name>/.claude
+    cat > ~/workspace/<repo-name>/.claude/CLAUDE.md << 'EOF'
+# Project Context
+
+Add your project-specific instructions, conventions, and context here.
+
+<!-- CANARY_MARKER -->
+EOF
+    ```
+
+    The `<!-- CANARY_MARKER -->` is important - the update script will preserve everything above this marker and regenerate everything below it with current git status, missions, and commit history.
+
+15. **Create Claude docs folder**
     ```bash
     mkdir -p ~/workspace/claude-docs
     ```
 
-15. **Setup update context script**
-    Put `update_context.sh` in the `claude-docs` folder:
+16. **Setup update context script**
+    Put `update_context.sh` in the `claude-docs` folder and make it executable:
     ```bash
     cp programs_config/claude/update_context.sh ~/workspace/claude-docs/
     chmod +x ~/workspace/claude-docs/update_context.sh
     ```
+
+    Edit the script and update the configuration variables:
+    ```bash
+    # Change these lines in ~/workspace/claude-docs/update_context.sh
+    REPO_DIR="$HOME/workspace/<repo-name>"
+    GIT_AUTHOR="<your-github-username>"
+    BASE_BRANCH="master"  # or "main" depending on your repo
+    ```
+
+    This script auto-generates context in `~/workspace/<repo-name>/.claude/CLAUDE.md` including:
+    - Active missions from `~/workspace/missions` (excluding archived/)
+    - Last 5 commits (full details)
+    - Your git history (last 20 commits)
+    - Git diff files (base branch vs HEAD)
+    - Staged and unstaged changes
+
+    Run it using the `cld` alias before working with Claude to provide fresh context.
