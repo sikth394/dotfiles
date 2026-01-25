@@ -9,8 +9,11 @@
 set -e
 
 # Configuration
-REPO_DIR="$HOME/workspace/platform"
+# TODO: Update these to match your setup
+REPO_DIR="$HOME/workspace/<repo-name>"
 MISSIONS_DIR="$HOME/workspace/missions"
+GIT_AUTHOR="<your-github-username>"  # Your GitHub username for filtering commits
+BASE_BRANCH="master"  # Base branch for diffs (master or main)
 TARGET_FILE="$REPO_DIR/.claude/CLAUDE.md"
 TEMP_FILE=$(mktemp)
 TIMESTAMP=$(date +%s)
@@ -56,19 +59,19 @@ git -C "$REPO_DIR" log -5 --pretty=medium >> "$TEMP_FILE"
 echo "[SECTION_END: Last 5 Commits]" >> "$TEMP_FILE"
 echo "" >> "$TEMP_FILE"
 
-# Section 3: Aviv's Git History
-echo "[SECTION_START: Aviv Git History - $TIMESTAMP]" >> "$TEMP_FILE"
+# Section 3: Personal Git History
+echo "[SECTION_START: Personal Git History - $TIMESTAMP]" >> "$TEMP_FILE"
 echo "" >> "$TEMP_FILE"
-echo "## Git History (Author: Aviv, Last 20)" >> "$TEMP_FILE"
-git -C "$REPO_DIR" log --author="avivv3" -20 --oneline >> "$TEMP_FILE"
-echo "[SECTION_END: Aviv Git History]" >> "$TEMP_FILE"
+echo "## Git History (Author: $GIT_AUTHOR, Last 20)" >> "$TEMP_FILE"
+git -C "$REPO_DIR" log --author="$GIT_AUTHOR" -20 --oneline >> "$TEMP_FILE"
+echo "[SECTION_END: Personal Git History]" >> "$TEMP_FILE"
 echo "" >> "$TEMP_FILE"
 
 # Section 4: Git Diff Files (Committed)
 echo "[SECTION_START: Git Diff Files - $TIMESTAMP]" >> "$TEMP_FILE"
 echo "" >> "$TEMP_FILE"
-echo "## Git Diff (master...HEAD - Files Only)" >> "$TEMP_FILE"
-git -C "$REPO_DIR" diff --name-only master...HEAD -- ':!.claude/CLAUDE.md' >> "$TEMP_FILE"
+echo "## Git Diff ($BASE_BRANCH...HEAD - Files Only)" >> "$TEMP_FILE"
+git -C "$REPO_DIR" diff --name-only $BASE_BRANCH...HEAD -- ':!.claude/CLAUDE.md' >> "$TEMP_FILE"
 echo "[SECTION_END: Git Diff]" >> "$TEMP_FILE"
 echo "" >> "$TEMP_FILE"
 
