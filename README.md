@@ -46,10 +46,29 @@ everything i need to get a new mac up & running
    mkdir -p ~/workspace
    ```
 
-8. **Download JetBrains Toolbox & PyCharm**
+8. **Install and Configure Git**
+   Check if git is already installed:
+   ```bash
+   git --version
+   ```
+
+   If not installed, install via Homebrew:
+   ```bash
+   brew install git
+   ```
+
+   Set up a nice git log alias for better commit visualization:
+   ```bash
+   git config --global alias.lg "log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
+   ```
+
+   Now you can use `git lg` instead of `git log` for a much more readable commit history.
+   you can also use `glg` which is an alias for `git lg` in your `.zshrc` file.
+
+9. **Download JetBrains Toolbox & PyCharm**
    Download JetBrains Toolbox from [jetbrains.com/toolbox-app](https://www.jetbrains.com/toolbox-app/) and install PyCharm from there.
 
-9. **Setup SSH Keys for GitHub**
+10. **Setup SSH Keys for GitHub**
    Generate an SSH key (using ed25519 as recommended by GitHub):
    ```bash
    ssh-keygen -t ed25519 -f ~/.ssh/id_ed25519_github
@@ -76,34 +95,34 @@ everything i need to get a new mac up & running
 
    For more information, see [GitHub's SSH documentation](https://docs.github.com/en/authentication/connecting-to-github-with-ssh).
 
-10. **Clone your main work repository**
+11. **Clone your main work repository**
     Clone your main work repository (replace `<repo-name>` with your actual repo name):
     ```bash
     cd ~/workspace
     git clone git@github.com:your-org/<repo-name>.git
     ```
 
-11. **Create missions folder**
+12. **Create missions folder**
     Create a folder for active mission/task documentation that will be auto-included in Claude context:
     ```bash
     mkdir -p ~/workspace/missions
     ```
 
-12. **Install Claude**
+13. **Install Claude**
     Install Claude Code CLI:
     ```bash
     brew install claude
     ```
     For more information, visit the [Claude Code documentation](https://github.com/anthropics/claude-code).
 
-13. **Setup Claude global configuration**
+14. **Setup Claude global configuration**
     Put the global `CLAUDE.md` in the `~/.claude` directory:
     ```bash
     mkdir -p ~/.claude
     cp programs_config/claude/CLAUDE.md ~/.claude/CLAUDE.md
     ```
 
-14. **Setup project-specific Claude configuration**
+15. **Setup project-specific Claude configuration**
     Create a project-specific CLAUDE.md file in your work repo with a canary marker (replace `<repo-name>` with your actual repo name):
     ```bash
     mkdir -p ~/workspace/<repo-name>/.claude
@@ -118,12 +137,12 @@ EOF
 
     The `<!-- CANARY_MARKER -->` is important - the update script will preserve everything above this marker and regenerate everything below it with current git status, missions, and commit history.
 
-15. **Create Claude docs folder**
+16. **Create Claude docs folder**
     ```bash
     mkdir -p ~/workspace/claude-docs
     ```
 
-16. **Setup update context script**
+17. **Setup update context script**
     Put `update_context.sh` in the `claude-docs` folder and make it executable:
     ```bash
     cp programs_config/claude/update_context.sh ~/workspace/claude-docs/
