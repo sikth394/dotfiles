@@ -34,14 +34,20 @@ echo "## Active Missions Content" >> "$TEMP_FILE"
 echo "" >> "$TEMP_FILE"
 
 if [ -d "$MISSIONS_DIR" ]; then
-    # Recursively find only markdown files (excluding archived folder)
-    find "$MISSIONS_DIR" -type f -name "*.md" -not -path "*/archived/*" -print0 2>/dev/null | sort -z | while IFS= read -r -d '' file; do
+    # Recursively find only markdown files (excluding archived and for_later folders)
+    mission_num=1
+    find "$MISSIONS_DIR" -type f -name "*.md" -not -path "*/archived/*" -not -path "*/for_later/*" -print0 2>/dev/null | sort -z | while IFS= read -r -d '' file; do
         # Get relative path from MISSIONS_DIR
         relative_path="${file#$MISSIONS_DIR/}"
-        echo "### $relative_path" >> "$TEMP_FILE"
+        mission_name="${relative_path%.md}"
+        echo "# ============================================================" >> "$TEMP_FILE"
+        echo "# Mission $mission_num: $mission_name" >> "$TEMP_FILE"
+        echo "# ============================================================" >> "$TEMP_FILE"
         echo "" >> "$TEMP_FILE"
         cat "$file" >> "$TEMP_FILE"
         echo "" >> "$TEMP_FILE"
+        echo "" >> "$TEMP_FILE"
+        mission_num=$((mission_num + 1))
     done
 else
     echo "_No active missions found_" >> "$TEMP_FILE"
