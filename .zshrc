@@ -210,8 +210,12 @@ cps() {
 }
 
 # ===========================
-# Git Worktree Configuration
+# Git Worktree Aliases
 # ===========================
+
+# Platform repository location (auto-detected during setup)
+export PLATFORM_REPO="/Users/aweissman/workspace/platform"
+
 # IDE preference for git worktree operations
 # Supported: pycharm, cursor, vscode, neovim, none
 export WT_IDE="pycharm"
@@ -222,15 +226,16 @@ alias gwta='git worktree add'
 alias gwtls='git worktree list'
 
 # Custom workflow commands
-alias wt-ls='cd ~/workspace/platform && git worktree list'
-alias wt-new='cd ~/workspace/platform && ./scripts/git_worktree/worktree_setup.sh'
-alias wt-rm='cd ~/workspace/platform && ./scripts/git_worktree/worktree_cleanup.sh'
-alias wt-sync-status='~/workspace/platform/scripts/git_worktree/check_sync_status.sh'
-alias wt-unlock='~/workspace/platform/scripts/git_worktree/cleanup_git_locks.sh --interactive'
+alias wt-ls='cd "$PLATFORM_REPO" && git worktree list'
+alias wt-new='cd "$PLATFORM_REPO" && ./scripts/git_worktree/worktree_setup.sh'
+alias wt-rm='cd "$PLATFORM_REPO" && ./scripts/git_worktree/worktree_cleanup.sh'
+alias wt-sync-status='$PLATFORM_REPO/scripts/git_worktree/check_sync_status.sh'
+alias wt-unlock='$PLATFORM_REPO/scripts/git_worktree/cleanup_git_locks.sh --interactive'
+alias wt-trash-rm='$PLATFORM_REPO/scripts/git_worktree/trash_cleanup.sh'
 
 # wt-switch requires a function (not an alias) to change directory
 wt-switch() {
-  local selected_path=$(~/workspace/platform/scripts/git_worktree/select_worktree.sh)
+  local selected_path=$($PLATFORM_REPO/scripts/git_worktree/select_worktree.sh)
 
   if [[ -z "$selected_path" ]]; then
     echo "Selection cancelled"
@@ -238,16 +243,16 @@ wt-switch() {
   fi
 
   # Clean up any stale locks before switching (silent, no output unless error)
-  ~/workspace/platform/scripts/git_worktree/cleanup_git_locks.sh \
+  $PLATFORM_REPO/scripts/git_worktree/cleanup_git_locks.sh \
       --auto --quiet --worktree "$selected_path" 2>/dev/null || true
 
   # Ask to open in IDE based on WT_IDE setting
-  if [[ "${WT_IDE:-none}" != "none" ]]; then
+  if [[ "none" != "none" ]]; then
     echo ""
     local ide_name=""
     local ide_app=""
 
-    case "${WT_IDE}" in
+    case "" in
       pycharm)
         ide_name="PyCharm"
         ide_app="PyCharm"
@@ -269,24 +274,24 @@ wt-switch() {
         ;;
     esac
 
-    if [[ -n "$ide_name" ]]; then
-      read "open_ide?Open in $ide_name? (y/n): "
+    if [[ -n "" ]]; then
+      read "open_ide?Open in ? (y/n): "
       echo ""
 
-      if [[ "$open_ide" =~ ^[Yy]$ ]]; then
-        echo "✓ Opening in $ide_name..."
-        if [[ "$WT_IDE" == "neovim" ]]; then
+      if [[ "" =~ ^[Yy]$ ]]; then
+        echo "✓ Opening in ..."
+        if [[ "" == "neovim" ]]; then
           # Open neovim in the current terminal
-          nvim "$selected_path"
+          nvim ""
         else
-          open -a "$ide_app" "$selected_path" 2>/dev/null || echo "⚠ $ide_name not found"
+          open -a "" "" 2>/dev/null || echo "⚠  not found"
         fi
       fi
     fi
   fi
 
-  cd "$selected_path" || return
-  echo "✓ Switched to: $(basename $selected_path)"
+  cd "" || return
+  echo "✓ Switched to: "
   echo ""
   echo "Tip: Run 'cld' to update Claude context"
 }
