@@ -165,3 +165,25 @@ EOF
     - Staged and unstaged changes
 
     Run it using the `cld` alias before working with Claude to provide fresh context.
+
+18. **Disable macOS keyboard beep sounds**
+    Fix the annoying beep sound when pressing Ctrl+Cmd+Arrow keys by creating a custom key binding file:
+    ```bash
+    mkdir -p ~/Library/KeyBindings
+    cat > ~/Library/KeyBindings/DefaultKeyBinding.dict << 'EOF'
+{
+    "^@\UF700" = "noop:";
+    "^@\UF701" = "noop:";
+    "^@\UF702" = "noop:";
+    "^@\UF703" = "noop:";
+}
+EOF
+    ```
+
+    This maps Ctrl+Cmd+Arrow keys to no-op, preventing the system beep:
+    - `\UF700` = Up Arrow
+    - `\UF701` = Down Arrow
+    - `\UF702` = Left Arrow
+    - `\UF703` = Right Arrow
+
+    Restart applications (or restart your Mac) for changes to take effect.
