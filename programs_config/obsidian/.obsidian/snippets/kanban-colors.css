@@ -1,0 +1,63 @@
+/* Kanban lane colors — dark theme */
+
+/* 1. TODO — cool blue */
+.kanban-plugin__lane:nth-child(1) {
+  background-color: rgba(100, 160, 230, 0.30) !important;
+  border-radius: 8px;
+}
+
+/* 2. In Progress — electric cyan, main focus */
+.kanban-plugin__lane:nth-child(2) {
+  background-color: rgba(0, 200, 255, 0.30) !important;
+  border-radius: 8px;
+}
+
+/* 3. Waiting For Review — soft violet */
+.kanban-plugin__lane:nth-child(3) {
+  background-color: rgba(180, 130, 255, 0.30) !important;
+  border-radius: 8px;
+}
+
+/* 4. On Hold — lavender grey */
+.kanban-plugin__lane:nth-child(4) {
+  background-color: rgba(155, 140, 180, 0.30) !important;
+  border-radius: 8px;
+}
+
+/* 5. Done — seafoam mint */
+.kanban-plugin__lane:nth-child(5) {
+  background-color: rgba(80, 200, 170, 0.30) !important;
+  border-radius: 8px;
+}
+
+/* 6. On Long Hold — muted rose */
+.kanban-plugin__lane:nth-child(6) {
+  background-color: rgba(180, 100, 130, 0.30) !important;
+  border-radius: 8px;
+}
+
+/* Fallback: nested lane-wrapper structure */
+.kanban-plugin__lane-wrapper:nth-child(1) .kanban-plugin__lane {
+  background-color: rgba(100, 160, 230, 0.30) !important;
+  border-radius: 8px;
+}
+.kanban-plugin__lane-wrapper:nth-child(2) .kanban-plugin__lane {
+  background-color: rgba(0, 200, 255, 0.30) !important;
+  border-radius: 8px;
+}
+.kanban-plugin__lane-wrapper:nth-child(3) .kanban-plugin__lane {
+  background-color: rgba(180, 130, 255, 0.30) !important;
+  border-radius: 8px;
+}
+.kanban-plugin__lane-wrapper:nth-child(4) .kanban-plugin__lane {
+  background-color: rgba(155, 140, 180, 0.30) !important;
+  border-radius: 8px;
+}
+.kanban-plugin__lane-wrapper:nth-child(5) .kanban-plugin__lane {
+  background-color: rgba(80, 200, 170, 0.30) !important;
+  border-radius: 8px;
+}
+.kanban-plugin__lane-wrapper:nth-child(6) .kanban-plugin__lane {
+  background-color: rgba(180, 100, 130, 0.30) !important;
+  border-radius: 8px;
+}
