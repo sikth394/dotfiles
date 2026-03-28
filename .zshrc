@@ -98,7 +98,7 @@ gc() {
   fi
   local branch=$(git branch \
     | sed 's|^[* ] ||' \
-    | grep -v "^${current_branch}$" \
+    | grep -F -x -v "$current_branch" \
     | fzf --prompt="Checkout branch: " \
           --header="Current branch: ${current_branch}" \
           --preview="git log --oneline --color=always -15 {}" \
@@ -121,7 +121,7 @@ alias gs="git switch"
 alias gk="gitk"
 alias gbp="git rev-parse --abbrev-ref HEAD"
 alias gmm="git merge origin/master"
-alias gmmp="git fetch --no-recurse-submodules origin master && git branch -f master origin/master 2>/dev/null; git merge origin/master"
+alias gmmp="git fetch --no-recurse-submodules origin master && git branch -f master origin/master 2>/dev/null && git merge origin/master"
 alias grm="git rebase origin/master"
 alias gmc="git merge --continue"
 alias gfo="git fetch origin"
@@ -153,7 +153,7 @@ gbd() {
 
   local branches_to_delete=$(git branch \
     | sed 's/^[* ] //' \
-    | grep -v "^${current_branch}$" \
+    | grep -F -x -v "$current_branch" \
     | fzf --multi \
           --prompt="Delete branches (TAB to select, ENTER to confirm): " \
           --header="Current branch: ${current_branch} (excluded)" \
@@ -314,6 +314,7 @@ nm() {
   local input="$*"
   local name="${input%%::*}"
   name="${name%"${name##*[! ]}"}"  # trim trailing spaces
+  name="${name//\//-}"  # replace / with - for safe filenames
   local body=""
   if [[ "$input" == *"::"* ]]; then
     body="${input#*::}"
@@ -435,6 +436,8 @@ dm() {
   fi
 
   echo "$selected" | while read -r line; do
+    # Strip ANSI escape codes before parsing
+    line=$(printf '%s' "$line" | sed -E 's/\x1B\[[0-9;]*[mK]//g')
     local section_tag="${line%%\] *}"
     section_tag="${section_tag#\[}"
     local name="${line#\[*\] }"
