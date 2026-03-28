@@ -159,20 +159,20 @@ Set up global configuration, skill, and scripts:
 mkdir -p ~/.claude/skills/mission-management
 cp programs_config/claude/CLAUDE.md ~/.claude/CLAUDE.md
 cp programs_config/claude/skills/mission-management/SKILL.md ~/.claude/skills/mission-management/SKILL.md
-cp programs_config/claude/claude-icon-cropped.png ~/.claude/
+cp programs_config/claude/notifications/claude-icon-cropped.png ~/.claude/
 ```
 
 Set up notifications (requires `terminal-notifier` and `jq`):
 ```bash
 brew install terminal-notifier jq
-cp programs_config/claude/notify.sh ~/.claude/notify.sh
+cp programs_config/claude/notifications/notify.sh ~/.claude/notify.sh
 chmod +x ~/.claude/notify.sh
 ```
 This sends a macOS notification with the Claude icon when Claude needs your attention (permission prompts, questions, task completion) — but only when iTerm2 is not in focus.
 
 Set up the status line (shows directory, git branch, model, and context usage):
 ```bash
-cp programs_config/claude/statusline-command.sh ~/.claude/statusline-command.sh
+cp programs_config/claude/notifications/statusline-command.sh ~/.claude/statusline-command.sh
 chmod +x ~/.claude/statusline-command.sh
 ```
 
