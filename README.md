@@ -126,19 +126,15 @@ Set up the missions vault from this repo:
 cp -r programs_config/obsidian ~/workspace/missions
 ```
 
-Open Obsidian and add `~/workspace/missions` as a vault. Then:
-1. Go to Settings > Community Plugins > Enable community plugins
-2. Install the plugins listed in `.obsidian/community-plugins.json`:
-   - **obsidian-kanban** — Kanban board for BOARD.md
-   - **omnisearch** — fast vault search
-   - **obsidian-excalidraw-plugin** — diagrams
-   - **code-styler** — code block styling
-   - **table-editor-obsidian** — markdown table editing
-   - **obsidian-party** — confetti on task completion
-   - **header-navigation** — navigate by headers
-   - **obsidian-outliner** — Workflowy-style list editing
-3. Go to Settings > Appearance > install **Dracula Official** theme
-4. Enable the CSS snippet: Settings > Appearance > CSS Snippets > enable `kanban-colors`
+Install plugins and theme automatically:
+```bash
+./programs_config/obsidian/install_plugins.sh ~/workspace/missions
+```
+This downloads all 8 community plugins from GitHub and installs the Dracula Official theme.
+
+Open Obsidian, add `~/workspace/missions` as a vault, then:
+1. Go to Settings > Community Plugins > Enable community plugins > enable all installed plugins
+2. Enable the CSS snippet: Settings > Appearance > CSS Snippets > enable `kanban-colors`
 
 The missions vault structure:
 ```
