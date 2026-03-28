@@ -172,7 +172,7 @@ This sends a macOS notification with the Claude icon when Claude needs your atte
 
 Set up the status line (shows directory, git branch, model, and context usage):
 ```bash
-cp programs_config/claude/notifications/statusline-command.sh ~/.claude/statusline-command.sh
+cp programs_config/claude/statusline-command.sh ~/.claude/statusline-command.sh
 chmod +x ~/.claude/statusline-command.sh
 ```
 
