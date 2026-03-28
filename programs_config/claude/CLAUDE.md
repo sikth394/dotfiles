@@ -1,89 +1,79 @@
 # Claude Code Guidelines
 
-## Tool Priorities (PyCharm MCP) - STRICT HIERARCHY
+## Tool Priorities - STRICT HIERARCHY
 
-⚠️ **STOP AND READ THIS BEFORE SEARCHING OR FINDING FILES** ⚠️
+### Finding Files
+- **fd** - `fd "pattern"` or `fd "pattern" path/`
 
-🔒 **HARD RESTRICTIONS ACTIVE**: Glob, Grep, bash find, and bash grep are **DENIED** at the system level. You will receive a permission error if you attempt to use them.
+### Searching File Contents
+- **rg** - `rg "pattern"` or `rg -l "pattern"` (files only)
+- **ast-grep** - syntax-aware search for structural patterns
 
-### Finding Files - USE IN THIS ORDER:
-1. **PyCharm MCP** `find_files_by_name_keyword` - ALWAYS FIRST (indexed, fastest)
-2. **bash rg** / **bash ast-grep** - if PyCharm fails/times out
-
-### Searching File Contents - USE IN THIS ORDER:
-1. **PyCharm MCP** (`search_in_files_by_text`, `search_in_files_by_regex`) - ALWAYS FIRST (indexed, fastest)
-2. **bash rg** / **bash ast-grep** - if PyCharm fails/times out
-
-**❌ WRONG - DO NOT DO THIS:**
-```python
-# Looking for test files? DO NOT USE:
-Glob(pattern="**/test_*.py")           # ❌ WRONG - use PyCharm MCP instead
-Grep(pattern="pyyaml")                  # ❌ WRONG - use PyCharm MCP instead
-Bash("find . -name 'test_*.py'")       # ❌ WRONG - use PyCharm MCP instead
-```
-
-**✅ CORRECT - DO THIS:**
-```python
-# Finding files by name:
-mcp__jetbrains__find_files_by_name_keyword(nameKeyword="test_")
-
-# Searching file contents:
-mcp__jetbrains__search_in_files_by_text(searchText="pyyaml")
-mcp__jetbrains__search_in_files_by_regex(regexPattern="import yaml")
-```
-
-**CRITICAL RULE: Glob/Grep/bash find/bash grep are SYSTEM-DENIED and will fail. ALWAYS use PyCharm MCP FIRST! If PyCharm fails, use bash rg or bash ast-grep.**
+### Reading & Editing Files
+- **Read** - for reading file contents
+- **Edit** - for editing files
 
 ### Editing - MANDATORY HIERARCHY
 
-1. **PyCharm** `rename_refactoring` - **MANDATORY FIRST** for symbols (variables, functions, classes)
-   - Handles all references across files intelligently
-   - **CRITICAL**: After refactoring, MUST use PyCharm `search_in_files_by_text` to validate all references updated
-   - Check for string references, comments, and edge cases.
-   - **NEVER use sed/awk for symbol renaming when the PyCharm MCP is relevant**
+1. **Edit tool** - for text changes when you've read the file and know exact context
 
-2. **PyCharm** `replace_text_in_file` - **MANDATORY BEFORE sed/awk** for text/regex replacements
-   - Supports regex with `regex: true` parameter
-   - Use when refactoring is not relevant (strings, comments, non-symbol text)
-   - Works per-file with `replaceAll: true` for all occurrences
+2. **ast-grep** - syntax-aware search *and* replace (use `--update-all` flag)
+   - Use for complex structural changes across multiple files
 
-3. **ast-grep** - syntax-aware search *and* replace (use `--update-all` flag)
-   - Use for complex structural changes across multiple files, only when no equivalent PyCharm opertion exits.
+3. **sed/awk** - LAST RESORT for batch operations across many files
+   - **NEVER use `sed -i ''`** on macOS - use `sed -i '.bak'` instead
 
-4. **Edit tool** - straightforward text changes in known files
-   - Use when you've already read the file and know exact context
+### Import/Usage Edit Order (CRITICAL)
+**Linter (`ruff check --fix`) auto-removes unused imports** - if you add an import without usage, it gets deleted.
 
-5. **sed/awk** - LAST RESORT for batch operations across many files
-   - Only when PyCharm tools and ast-grep cannot accomplish the task
+**Strategy - pick one:**
+1. **All-at-once**: Add import AND usage in same Edit call
+2. **Usage-first**: Add the code that uses the import, then add the import
+
+**Never**: Add import alone → run linter → import gone → confusion
 
 ### Validation
 **you MUST perform all those steps before you present code to the user, commit it treat it as done**
-- `get_file_problems` → quick IDE feedback
 - `ruff check --fix` + `ruff format` (run directly, not from venv)
-- `uv run pyright` → type checking (catches what ruff/PyCharm miss, handles dynamic imports)
+- `uv run pyright` → type checking (handles dynamic imports)
 - run all relevant tests
 - validate resulting diff when relevant
-- think about your changes from a critical perspective, from a bird-eyes view.
+- think about your changes from a critical perspective, from a bird-eyes view
 
-### Other PyCharm Tools
-- `get_symbol_info` - type info, docs
-- `execute_run_configuration` - run tests
-- `get_file_text_by_path` - alternative to Read
+### When to Use Bash
+- **fd**: file searching
+- **rg**: content searching
+- **ast-grep**: syntax-aware search and replace
+- **sed/awk**: batch text operations (use `sed -i '.bak'` on macOS)
+- **git**: version control operations
+- **running commands**: tests, builds, scripts
 
-### When to Use Read/Bash
-- **Read**: exact file paths only (auto-approved for /tmp and ~/tmp)
-- **Bash rg**: allowed for all searching when PyCharm MCP is unavailable
-  - Can also replace find: `rg --files` or `rg -l pattern` for piping to commands
-  - Read-only by design (cannot edit files)
-- **Bash ast-grep**: allowed for syntax-aware search and replace
-- **Bash**: git operations, running commands (NOT find/grep - those are denied)
+### Subagents - USE LIBERALLY
+- **Proactively use subagents** whenever possible - they extend main session context life
+- Explore agents for codebase investigation
+- Task agents for isolated subtasks
+- Any agent type that fits - don't hesitate, just deploy them
+- Main session staying lean = longer productive conversations
+
+### Large Files
+- Save large outputs to `/tmp` first (`cmd > /tmp/output.txt`), then use `rg`/`head`/`tail` on the saved file
+- Benefit: You can run multiple filters without re-running the original command if your first filter wasn't right (unlike piping where data is lost)
+
+### Communication Style
+- **Ask questions freely** - via AskUser tool or plain text, doesn't matter
+- Questions enable real-time steering with user's domain knowledge
+- Avoids looping on things the user already knows
+- We lose nothing by asking and getting "idk" - but gain a lot when user has the answer
+- **Important info in final message only** - user typically sees only the last message before getting control back
+- Before returning control, consolidate all important findings/results since user's last message
+- Don't bury critical info in intermediate messages (gray circles) that get lost in thinking/tool output
 
 ---
 
 ## Git and Version Control
 
 ### Commits and Pull Requests
-🚨 **CRITICAL RULES - READ BEFORE ANY GIT OPERATION**:
+**CRITICAL RULES - READ BEFORE ANY GIT OPERATION**:
 
 1. **ALWAYS ASK BEFORE COMMITTING**: Never create a git commit without explicit user approval
    - Present a summary of changes first
@@ -95,36 +85,39 @@ mcp__jetbrains__search_in_files_by_regex(regexPattern="import yaml")
    - Ask the user to review and approve
    - Only create the PR after explicit confirmation
 
-3. **NEVER PUSH TO REMOTE**: `git push` is DENIED at the system level
-   - User will push manually when ready
-   - This prevents accidental pushes to shared branches
-   - If user asks to push, explain it's restricted and they should do it manually
-
 ### Allowed Git Operations
-- ✅ `git status`, `git diff`, `git log` - inspection only
-- ✅ `git add`, `git commit` - ONLY after explicit user approval
-- ✅ `git branch`, `git checkout` - branch management
-- ✅ `gh pr create` - ONLY after explicit user approval
-- ❌ `git push` - SYSTEM DENIED (use `git push:*` pattern)
+- `git status`, `git diff`, `git log` - inspection only
+- `git add`, `git commit` - ONLY after explicit user approval
+- `git branch`, `git checkout` - branch management
+- `gh pr create` - ONLY after explicit user approval
+- `git push` - ONLY after explicit user approval
 
 ---
 
 ## Code Style
 
-### Minimalism
-- Focus only on what's needed for the task
-- No "just in case" code or speculative edge cases
-- Remove unused parameters, options, imports
+### Core Philosophy
+KISS, DRY, Pythonic (`import this`). TDD/SDD when fitting. Blend into existing repo patterns. Easy-to-understand above all.
 
 ### Functions
-- Small and focused (~4 lines)
-- Single responsibility; break complex ops into simple functions
+- ~4 lines, single responsibility
+- Break complex operations into simple, atomic functions
 - Readability over cleverness
+
+### Naming
+- Clear over clever
+- Long and clear > short and cryptic (e.g., `get_user_by_email` > `get_usr`)
+
+### Minimalism
+- Only what's needed - no "just in case" code
+- Remove unused parameters, options, imports
+- No speculative edge case handling
 
 ### Comments
 - Let code speak for itself
-- Only for complex/non-obvious logic
-- Docstrings: concise
+- **No self-explanatory single-line comments** - extract to a well-named function instead (e.g., `# get user` → `get_user()`)
+- Only for non-obvious logic or edge cases
+- Docstrings: concise, when needed
 
 ### Error Handling
 - Handle only expected, relevant errors
@@ -132,11 +125,11 @@ mcp__jetbrains__search_in_files_by_regex(regexPattern="import yaml")
 
 ### Design
 - Prefer functional for utilities
-- OOP only when state/inheritance helps (static methods → probably should be functions)
+- OOP when state/inheritance actually helps
+- Static methods → probably should be plain functions
 
 ### Testing
-- Happy path first; don't over-test edge cases
-- **DRY**: use OOP test classes, fixtures, and shared helpers aggressively
+- Happy path first
+- DRY: test classes, fixtures, shared helpers
 - Atomic helpers over monolithic test functions
-- Avoid redundant assertions across tests
-
+- Match existing repo test patterns
