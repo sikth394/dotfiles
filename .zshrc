@@ -130,6 +130,9 @@ alias gps="git push"
 alias gituser='echo "Name: $(git config user.name)\nEmail: $(git config user.email)\nRemote: $(git remote get-url origin 2>/dev/null || echo "No origin set")"'
 alias delmaster="git branch -D master"
 
+# Launch Claude Code
+alias cla="claude"
+
 # Fetch, prune, and delete branches whose remote is gone
 gfp() {
   git fetch --prune
@@ -239,6 +242,9 @@ ghelp() {
 # ===========================
 # Development Tools
 # ===========================
+# Claude Code fullscreen rendering (flicker-free, mouse support, flat memory)
+export CLAUDE_CODE_NO_FLICKER=1
+
 # Python linting/formatting
 alias rfo="ruff format ."
 alias rcf="ruff check --fix"
@@ -253,13 +259,17 @@ alias cld="<path-to>/update_context.sh"
 # ===========================
 # Mission Management
 # ===========================
+# Inherit Obsidian settings (plugins, themes, snippets) from missions vault into a new vault
+# Usage: obs-inherit <target_vault> [source_vault]
+alias obs-inherit="$HOME/workspace/dotfiles/programs_config/obsidian/inherit_settings.sh"
+
 # Open missions directory in Obsidian
-alias msn="obs ~/workspace/missions"
+alias msn="obs ~/workspace/docs/missions"
 
 # Show in-progress missions from BOARD.md (full content)
 smsn() {
-  local board="$HOME/workspace/missions/BOARD.md"
-  local missions_dir="$HOME/workspace/missions/_missions"
+  local board="$HOME/workspace/docs/missions/BOARD.md"
+  local missions_dir="$HOME/workspace/docs/missions/_missions"
   local in_progress
   in_progress=$(awk '/^## In Progress/{found=1; next} /^## /{found=0} found && /\[\[.*\]\]/{gsub(/.*\[\[|\]\].*/,""); print}' "$board")
   if [ -z "$in_progress" ]; then
@@ -285,7 +295,7 @@ smsn() {
 
 # List in-progress missions (number + title only)
 lsmsn() {
-  local board="$HOME/workspace/missions/BOARD.md"
+  local board="$HOME/workspace/docs/missions/BOARD.md"
   local in_progress
   in_progress=$(awk '/^## In Progress/{found=1; next} /^## /{found=0} found && /\[\[.*\]\]/{gsub(/.*\[\[|\]\].*/,""); print}' "$board")
   if [ -z "$in_progress" ]; then
@@ -302,7 +312,7 @@ lsmsn() {
 # Add mission link to BOARD.md TODO section
 _add_to_board() {
   local name="$1"
-  local board="$HOME/workspace/missions/BOARD.md"
+  local board="$HOME/workspace/docs/missions/BOARD.md"
   sed -i '.bak' "/^## TODO$/a\\
 - [ ] [[$name]]
 " "$board" && rm -f "$board.bak"
@@ -323,7 +333,7 @@ nm() {
       vared -p "body> " body
     fi
   fi
-  local mission_file="$HOME/workspace/missions/_missions/$name.md"
+  local mission_file="$HOME/workspace/docs/missions/_missions/$name.md"
   if [[ -n "$body" ]]; then
     echo "$body" > "$mission_file"
   else
@@ -348,8 +358,8 @@ nmf() {
       vared -p "context> " body
     fi
   fi
-  local mission_file="$HOME/workspace/missions/_missions/$name.md"
-  local template="$HOME/workspace/missions/config/mission format.md"
+  local mission_file="$HOME/workspace/docs/missions/_missions/$name.md"
+  local template="$HOME/workspace/docs/missions/config/mission format.md"
   if [[ -n "$body" ]]; then
     awk -v body="$body" '/^# Context$/{print; print ""; print body; next} 1' "$template" > "$mission_file"
   else
@@ -361,9 +371,9 @@ nmf() {
 
 # Interactive multi-select mission delete (fzf)
 dm() {
-  local missions_dir="$HOME/workspace/missions/_missions"
-  local root_dir="$HOME/workspace/missions"
-  local board="$HOME/workspace/missions/BOARD.md"
+  local missions_dir="$HOME/workspace/docs/missions/_missions"
+  local root_dir="$HOME/workspace/docs/missions"
+  local board="$HOME/workspace/docs/missions/BOARD.md"
 
   # Parse BOARD.md: extract missions grouped by section, excluding Done
   # Colors match kanban CSS: blue=TODO, cyan=In Progress, grey=On Hold, mauve=Long Hold
@@ -462,7 +472,46 @@ dm() {
 
 # Clear all missions
 cms() {
-  rm -f ~/workspace/missions/_missions/*.md
+  rm -f ~/workspace/docs/missions/_missions/*.md
+}
+
+# ===========================
+# Meeting Notes
+# ===========================
+# Open the meeting-notes vault in Obsidian
+alias mtg="obs ~/workspace/docs/meeting-notes"
+
+# Create today's meeting note from a template and open it in Obsidian
+# Usage:
+#   nmtg                    # today's note in "General/" from _templates/default.md
+#   nmtg "<meeting>"        # today's note in "<meeting>/"; template _templates/<meeting>.md, fallback default.md
+nmtg() {
+  local vault="$HOME/workspace/docs/meeting-notes"
+  local meeting="${1:-General}"
+  local folder="$vault/$meeting"
+  local default_template="$vault/_templates/default.md"
+  local meeting_template="$vault/_templates/$meeting.md"
+  local template
+  if [[ -f "$meeting_template" ]]; then
+    template="$meeting_template"
+  else
+    template="$default_template"
+  fi
+  local date_str=$(date +%F)
+  local note="$folder/$date_str.md"
+
+  [[ ! -d "$folder" ]] && mkdir -p "$folder"
+
+  if [[ ! -f "$note" ]]; then
+    if [[ -f "$template" ]]; then
+      sed "s/{{date}}/$date_str/g" "$template" > "$note"
+    else
+      touch "$note"
+    fi
+    echo "Created $note"
+  fi
+
+  obs "$note"
 }
 
 # Mission & plan management help
@@ -481,6 +530,10 @@ mhelp() {
   printf "%-18s %-50s\n" "nmf <name>" "Create mission with template (nmf name :: ctx)"
   printf "%-18s %-50s\n" "dm" "Interactive multi-select mission delete (fzf)"
   printf "%-18s %-50s\n" "cms" "Clear all mission files"
+  echo ""
+  echo "📝 \033[1mMeeting Notes\033[0m"
+  printf "%-18s %-50s\n" "mtg" "Open meeting-notes vault in Obsidian"
+  printf "%-18s %-50s\n" "nmtg [meeting]" "Create today's meeting note from template"
   echo ""
   echo "📐 \033[1mClaude Plans\033[0m"
   printf "%-18s %-50s\n" "pln" "Open plans directory in Obsidian"

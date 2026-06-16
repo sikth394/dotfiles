@@ -123,44 +123,90 @@ sudo mv /tmp/obs /usr/local/bin/obs
 
 Set up the missions vault from this repo:
 ```bash
-cp -r programs_config/obsidian ~/workspace/missions
+cp -r programs_config/obsidian ~/workspace/docs/missions
 ```
 
 Install plugins and theme automatically:
 ```bash
-./programs_config/obsidian/install_plugins.sh ~/workspace/missions
+./programs_config/obsidian/install_plugins.sh ~/workspace/docs/missions
 ```
 This downloads all 8 community plugins from GitHub and installs the Dracula Official theme.
 
-Open Obsidian, add `~/workspace/missions` as a vault, then:
+Open Obsidian, add `~/workspace/docs/missions` as a vault, then:
 1. Go to Settings > Community Plugins > Enable community plugins > enable all installed plugins
 2. Enable the CSS snippet: Settings > Appearance > CSS Snippets > enable `kanban-colors`
 
-The missions vault structure:
+#### Vault structure
+
 ```
 missions/
-├── BOARD.md              # Kanban board (6 sections)
-├── _missions/            # Individual mission files
-├── Files/                # Attachments and screenshots
+├── BOARD.md                  # Obsidian Kanban board — the source of truth for mission state
+├── _missions/                # One markdown file per mission (titles carry an emoji prefix)
+├── Files/                    # Attachments: screenshots, eval JSON, scratch notes
 ├── config/
-│   └── mission format.md # Template for new missions
-└── .obsidian/            # Obsidian config (hotkeys, plugins, CSS)
+│   └── mission format.md     # Template applied to new missions (nmf / Kanban "new note")
+└── .obsidian/                # Vault config (versioned in this repo)
+    ├── community-plugins.json  # List of plugin IDs to install
+    ├── core-plugins.json
+    ├── appearance.json         # Active theme (Dracula Official)
+    ├── hotkeys.json
+    ├── plugins/                # Installed plugins (populated by install_plugins.sh)
+    ├── themes/                 # Installed themes (populated by install_plugins.sh)
+    └── snippets/
+        └── kanban-colors.css   # Per-section color coding for the board
 ```
 
-Run `mhelp` to see all mission management commands (`msn`, `smsn`, `lsmsn`, `nm`, `nmf`, `dm`, etc.).
+The board has **6 Kanban sections** — `TODO`, `In Progress`, `Waiting For Review`, `On Hold`, `Done`, `On Long Hold` — plus an `Archive` list. Each card is an Obsidian wiki-link (`[[🚀 Mission Title]]`) to a file in `_missions/`. The `%% kanban:settings %%` block at the bottom of `BOARD.md` is required by the Kanban plugin — never delete it.
+
+Mission files follow `config/mission format.md`: `# Related Tasks`, `# Context`, `# Tasks` (a `- [ ]` checklist), and `# Extra`.
+
+#### Reuse these settings in another vault
+
+To give a different vault the same plugins, theme, hotkeys, and snippets without copying per-vault UI state:
+```bash
+./programs_config/obsidian/inherit_settings.sh <target_vault> [source_vault]
+```
+`source_vault` defaults to `~/workspace/docs/missions`. It rsyncs `.obsidian/` while excluding per-vault state (`workspace.json`, `types.json`). Run `install_plugins.sh <target_vault>` afterward to download the plugin binaries.
+
+#### Meeting-notes vault (optional)
+
+A second Obsidian vault for per-meeting notes (one folder per recurring meeting, dated `YYYY-MM-DD.md` notes from templates). Set it up by copying the scaffold and inheriting the missions vault's Obsidian settings:
+```bash
+cp -r programs_config/meeting-notes ~/workspace/docs/meeting-notes
+./programs_config/obsidian/inherit_settings.sh ~/workspace/docs/meeting-notes
+./programs_config/obsidian/install_plugins.sh ~/workspace/docs/meeting-notes
+```
+Add `~/workspace/docs/meeting-notes` as a vault in Obsidian. Then use `mtg` to open it and `nmtg [meeting]` to create today's note from a template (`_templates/default.md`, or `_templates/<meeting>.md` per meeting). The mission skills can back-write a resolution status into a meeting note when a mission spawned from it completes.
+
+Run `mhelp` to see all mission, meeting-note, and Claude-plan commands (`msn`, `nm`, `nmf`, `dm`, `cms`, `mtg`, `nmtg`, `pln`, `cps`, etc.).
 
 ### 14. Install Claude Code
 ```bash
 brew install claude
 ```
 
-Set up global configuration, skill, and scripts:
+Set up global configuration, skills, and scripts:
 ```bash
-mkdir -p ~/.claude/skills/mission-management
+mkdir -p ~/.claude/skills
 cp programs_config/claude/CLAUDE.md ~/.claude/CLAUDE.md
-cp programs_config/claude/skills/mission-management/SKILL.md ~/.claude/skills/mission-management/SKILL.md
+cp -r programs_config/claude/skills/* ~/.claude/skills/
 cp programs_config/claude/notifications/claude-icon-cropped.png ~/.claude/
 ```
+
+This installs four personal skills. They auto-trigger on the keyword aliases below (no extra config needed — the triggers live in each skill's `description`):
+
+| Skill | Alias | Purpose |
+|-------|-------|---------|
+| `mission-management` | **MM** | Create / move / edit missions and the Kanban board. New missions land at the end of `TODO`; the board layout is user-controlled (Claude never moves cards unasked). |
+| `flesh-out-missions` | **FOM** | Expand a bare mission stub into concrete, verb-first tasks with code refs — calibrated to scope (surgical vs capture). Runs *before* execution. |
+| `execute-mission` | **EM** | Pick up the next unchecked task from an in-progress mission and do it, marking `[x]` as it goes. Supports `EM 2`, `EM <name>`, `EM task 3`. |
+| `writeup` | **/writeup** | Export a substantial artifact (explanation, debug breakdown, analysis) verbatim into the Obsidian exports vault at `~/workspace/claude-docs/exports/` for reading outside the terminal. |
+
+The three mission skills (typical loop: **MM** capture → **FOM** flesh out → **EM** execute) read/write `~/workspace/docs/missions/` (the vault from step 13), so they only work once that vault exists. `writeup` needs its own exports vault:
+```bash
+mkdir -p ~/workspace/claude-docs/exports
+```
+Optionally open `~/workspace/claude-docs/exports` as an Obsidian vault to browse exports comfortably.
 
 Set up notifications (requires `terminal-notifier` and `jq`):
 ```bash
