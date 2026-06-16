@@ -288,7 +288,19 @@ The `cld` alias regenerates everything below the marker with current git status,
 ### 15. Install JetBrains Toolbox (optional)
 Download from [jetbrains.com/toolbox-app](https://www.jetbrains.com/toolbox-app/) and install your IDE of choice.
 
-### 16. Git Worktree Setup (optional)
+### 16. Install cmux (optional terminal)
+A Ghostty-based terminal built for AI coding agents — vertical-tab workspaces, a built-in browser, a PR/ports sidebar, and native Claude Code integration.
+```bash
+brew install --cask cmux
+```
+
+**There's no config file to copy.** cmux stores its settings in the GUI (Settings) and macOS defaults; the dotfiles only hold portable artifacts, and cmux's state (window frames, sessions, browser profiles) isn't portable. A few things worth setting in Settings after install:
+- **Automation → Claude Code integration** — auto-resumes agent sessions and surfaces notifications (pairs with the `notify.sh` hook from step 14).
+- **Appearance** — dark mode.
+
+To version specific settings, cmux supports a file-managed config at `~/.config/cmux/cmux.json` (JSONC). It's created as an all-commented template on first launch — uncomment only the keys you want git to own, and leave the rest GUI-managed. Nothing in this repo needs to seed it.
+
+### 17. Git Worktree Setup (optional)
 If you use git worktrees, run the setup script to configure your repository:
 ```bash
 ./programs_config/dotfiles/setup_script/setup.sh
@@ -298,7 +310,7 @@ Run `wt-help` to see all worktree commands.
 
 For detailed documentation, see `programs_config/dotfiles/docs/`.
 
-### 17. Disable macOS keyboard beep sounds
+### 18. Disable macOS keyboard beep sounds
 Fix the beep on Ctrl+Cmd+Arrow keys:
 ```bash
 mkdir -p ~/Library/KeyBindings
