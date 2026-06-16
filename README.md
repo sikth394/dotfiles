@@ -300,7 +300,20 @@ brew install --cask cmux
 
 To version specific settings, cmux supports a file-managed config at `~/.config/cmux/cmux.json` (JSONC). It's created as an all-commented template on first launch — uncomment only the keys you want git to own, and leave the rest GUI-managed. Nothing in this repo needs to seed it.
 
-### 17. Git Worktree Setup (optional)
+### 17. Install Raycast (optional launcher)
+Spotlight replacement / launcher with extensions, clipboard history, window management, and snippets.
+```bash
+brew install --cask raycast
+```
+
+**Config isn't version-controllable from this repo.** Raycast keeps all settings — hotkeys, aliases, extensions, snippets — in an encrypted SQLite store (`~/Library/Application Support/com.raycast.macos/raycast-enc.sqlite`). The only portable migration path is Raycast's own export: on the old Mac, **Settings → Advanced → Export** produces a password-protected `.rayconfig`; **Import** it on the new Mac to restore everything at once. Don't try to copy the SQLite files.
+
+Manual setup if starting fresh:
+- **Activation hotkey** — set Raycast to ⌘Space. First free it from Spotlight: System Settings → Keyboard → Keyboard Shortcuts → Spotlight → uncheck "Show Spotlight search".
+- **Appearance** — follows system theme by default.
+- **Extensions in use** (reinstall from the Raycast Store): **Port Manager** (open-ports menu-bar item), **Kill Process**, plus the built-in Calculator, Clipboard History, and Window Management.
+
+### 18. Git Worktree Setup (optional)
 If you use git worktrees, run the setup script to configure your repository:
 ```bash
 ./programs_config/dotfiles/setup_script/setup.sh
@@ -310,7 +323,7 @@ Run `wt-help` to see all worktree commands.
 
 For detailed documentation, see `programs_config/dotfiles/docs/`.
 
-### 18. Disable macOS keyboard beep sounds
+### 19. Disable macOS keyboard beep sounds
 Fix the beep on Ctrl+Cmd+Arrow keys:
 ```bash
 mkdir -p ~/Library/KeyBindings
