@@ -313,7 +313,32 @@ Manual setup if starting fresh:
 - **Appearance** — follows system theme by default.
 - **Extensions in use** (reinstall from the Raycast Store): **Port Manager** (open-ports menu-bar item), **Kill Process**, plus the built-in Calculator, Clipboard History, and Window Management.
 
-### 18. Git Worktree Setup (optional)
+### 18. Install Rectangle (window manager)
+Keyboard-driven window snapping/tiling.
+```bash
+brew install --cask rectangle
+```
+
+Unlike cmux and Raycast, Rectangle's config is a plain, secret-free plist — so this repo ships it. Restore the keybindings and preferences with:
+```bash
+defaults import com.knollsoft.Rectangle programs_config/rectangle/com.knollsoft.Rectangle.plist
+```
+Then launch Rectangle (or quit + reopen if already running) and grant Accessibility permission when prompted. To re-export after changing shortcuts: `defaults export com.knollsoft.Rectangle programs_config/rectangle/com.knollsoft.Rectangle.plist` (then `plutil -convert xml1` on it to keep the diff readable).
+
+Keybindings in the shipped config:
+
+| Action | Shortcut | Action | Shortcut |
+|--------|----------|--------|----------|
+| Left half | ⌃Home | Maximize | ⌃⌘PageUp |
+| Right half | ⌃End | Almost maximize | ⌃⌘PageDown |
+| Top half | ⌃PageUp | Previous display | ⌃⌘Home |
+| Bottom half | ⌃PageDown | Next display | ⌃⌘End |
+| Larger | ⌃⌥⇧↑ | Toggle Todo | ⌃⌥B |
+| Smaller | ⌃⌥⇧↓ | Reflow Todo | ⌃⌥N |
+
+`allowAnyShortcut` is on (lets you assign non-standard combos); corners and center are intentionally unbound.
+
+### 19. Git Worktree Setup (optional)
 If you use git worktrees, run the setup script to configure your repository:
 ```bash
 ./programs_config/dotfiles/setup_script/setup.sh
@@ -323,7 +348,7 @@ Run `wt-help` to see all worktree commands.
 
 For detailed documentation, see `programs_config/dotfiles/docs/`.
 
-### 19. Disable macOS keyboard beep sounds
+### 20. Disable macOS keyboard beep sounds
 Fix the beep on Ctrl+Cmd+Arrow keys:
 ```bash
 mkdir -p ~/Library/KeyBindings
