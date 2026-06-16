@@ -309,7 +309,7 @@ brew install --cask raycast
 **Config isn't version-controllable from this repo.** Raycast keeps all settings — hotkeys, aliases, extensions, snippets — in an encrypted SQLite store (`~/Library/Application Support/com.raycast.macos/raycast-enc.sqlite`). The only portable migration path is Raycast's own export: on the old Mac, **Settings → Advanced → Export** produces a password-protected `.rayconfig`; **Import** it on the new Mac to restore everything at once. Don't try to copy the SQLite files.
 
 Manual setup if starting fresh:
-- **Activation hotkey** — set Raycast to ⌥Space (option+space). Spotlight keeps its default ⌘Space — no remapping needed, the two don't clash.
+- **Activation hotkey** — set Raycast to ⌥Space (option+space).
 - **Appearance** — follows system theme by default.
 - **Extensions in use** (reinstall from the Raycast Store): **Port Manager** (open-ports menu-bar item), **Kill Process**, plus the built-in Calculator, Clipboard History, and Window Management.
 
