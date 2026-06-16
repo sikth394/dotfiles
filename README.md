@@ -132,6 +132,13 @@ Install plugins and theme automatically:
 ```
 This downloads all 8 community plugins from GitHub and installs the Dracula Official theme.
 
+Set up **shared hotkeys** — one file all vaults symlink to, so keyboard shortcuts stay in sync. The missions vault ships the canonical `hotkeys.json`; seed the shared copy from it and point the vault at it:
+```bash
+cp ~/workspace/docs/missions/.obsidian/hotkeys.json ~/.obsidian-shared-hotkeys.json
+ln -sf ~/.obsidian-shared-hotkeys.json ~/workspace/docs/missions/.obsidian/hotkeys.json
+```
+Any other vault set up with `inherit_settings.sh` (below) gets symlinked to this shared file automatically. Edit shortcuts in any vault → all vaults update.
+
 Open Obsidian, add `~/workspace/docs/missions` as a vault, then:
 1. Go to Settings > Community Plugins > Enable community plugins > enable all installed plugins
 2. Enable the CSS snippet: Settings > Appearance > CSS Snippets > enable `kanban-colors`
@@ -166,7 +173,7 @@ To give a different vault the same plugins, theme, hotkeys, and snippets without
 ```bash
 ./programs_config/obsidian/inherit_settings.sh <target_vault> [source_vault]
 ```
-`source_vault` defaults to `~/workspace/docs/missions`. It rsyncs `.obsidian/` while excluding per-vault state (`workspace.json`, `types.json`). Run `install_plugins.sh <target_vault>` afterward to download the plugin binaries.
+`source_vault` defaults to `~/workspace/docs/missions`. It rsyncs `.obsidian/` while excluding per-vault state (`workspace.json`, `types.json`) and symlinks the target's `hotkeys.json` to the shared `~/.obsidian-shared-hotkeys.json` (seeding it from the source on first run). Run `install_plugins.sh <target_vault>` afterward to download the plugin binaries.
 
 #### Meeting-notes vault (optional)
 
