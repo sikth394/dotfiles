@@ -1,11 +1,11 @@
 #!/bin/bash
 # Install Obsidian community plugins and theme for the missions vault.
 # Usage: ./install_plugins.sh [vault_path]
-#   vault_path defaults to ~/workspace/missions
+#   vault_path defaults to ~/workspace/docs/missions
 
 set -euo pipefail
 
-VAULT="${1:-$HOME/workspace/missions}"
+VAULT="${1:-$HOME/workspace/docs/missions}"
 OBSIDIAN_DIR="$VAULT/.obsidian"
 PLUGINS_DIR="$OBSIDIAN_DIR/plugins"
 THEMES_DIR="$OBSIDIAN_DIR/themes"
