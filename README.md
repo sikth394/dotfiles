@@ -123,7 +123,7 @@ sudo mv /tmp/obs /usr/local/bin/obs
 
 Set up the missions vault from this repo:
 ```bash
-cp -r programs_config/obsidian ~/workspace/docs/missions
+cp -r programs_config/obsidian/missions ~/workspace/docs/missions
 ```
 
 Install plugins and theme automatically:
@@ -179,7 +179,7 @@ To give a different vault the same plugins, theme, hotkeys, and snippets without
 
 A second Obsidian vault for per-meeting notes (one folder per recurring meeting, dated `YYYY-MM-DD.md` notes from templates). Set it up by copying the scaffold and inheriting the missions vault's Obsidian settings:
 ```bash
-cp -r programs_config/meeting-notes ~/workspace/docs/meeting-notes
+cp -r programs_config/obsidian/meeting-notes ~/workspace/docs/meeting-notes
 ./programs_config/obsidian/inherit_settings.sh ~/workspace/docs/meeting-notes
 ./programs_config/obsidian/install_plugins.sh ~/workspace/docs/meeting-notes
 ```
