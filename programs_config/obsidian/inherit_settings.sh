@@ -46,9 +46,21 @@ if [[ -f "$SHARED_HOTKEYS" ]]; then
   ln -sf "$SHARED_HOTKEYS" "$TARGET/.obsidian/hotkeys.json"
 fi
 
+# Seed an empty kanban board (same lanes/colors as the missions board) unless
+# the target already has one.
+BOARD_TEMPLATE="$(dirname "$0")/BOARD.template.md"
+BOARD_SEEDED=0
+if [[ -f "$BOARD_TEMPLATE" && ! -s "$TARGET/BOARD.md" ]]; then
+  cp "$BOARD_TEMPLATE" "$TARGET/BOARD.md"
+  BOARD_SEEDED=1
+fi
+
 echo "Inherited Obsidian settings:"
 echo "  source: $SOURCE"
 echo "  target: $TARGET"
 echo "  hotkeys: symlinked to $SHARED_HOTKEYS"
+if [[ "$BOARD_SEEDED" -eq 1 ]]; then
+  echo "  board: seeded empty BOARD.md from $BOARD_TEMPLATE"
+fi
 echo ""
 echo "Restart Obsidian, then enable plugins in Settings > Community Plugins."
